@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "sourceMap": true,
+    "outDir": "./build",
+    "declaration": true,
+    "module": "commonjs",
+    "importHelpers": true,
+    "removeComments": true,
+    "downlevelIteration": true,
+    "lib": ["es2015", "es2016", "es2017"],
+
+    "strict": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "strictFunctionTypes": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "types": ["node", "express", "jest"],
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "*": ["src/types/*"]
+    },
+
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

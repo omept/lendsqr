@@ -1,0 +1,16 @@
+import * as Knex from 'knex';
+
+export function seed(knex: Knex): Knex.SchemaBuilder {
+  return knex('table_name')
+    .del()
+    .then(() => {
+      return Promise.all([
+        knex('table_name').insert([
+          {
+            colName: 'rowValue',
+            colName2: 'rowValue'
+          }
+        ])
+      ]);
+    });
+}
