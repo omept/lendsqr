@@ -64,6 +64,7 @@
     "knex": "^2.1.0",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
     "nodemailer": "^6.6.3",
     "nodemailer-markdown": "^1.0.3",
     "objection": "^3.0.1",

@@ -75,3 +75,4 @@ volumes
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+.DS_Store

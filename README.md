@@ -116,7 +116,7 @@ Create a file or add following lines in `.vscode` > `settings.json` and switch a
     "$shared": {
       "refreshToken": "foo",
       "accessToken": "bar",
-      "email": "sgr.raee@gmail.com",
+      "email": "georgetheprogrammer@gmail.com",
       "password": "secret" 
     },
     "local": {
