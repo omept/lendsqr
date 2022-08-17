@@ -1,5 +1,6 @@
 {
   "auth": {
+    "signUpSuccess": "Sign up successful.",
     "loginSuccess": "Login successful.",
     "logoutSuccess": "Logout successful.",
     "invalidCredentials": "Invalid Credentials",

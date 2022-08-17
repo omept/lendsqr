@@ -36,9 +36,7 @@ export async function insert(params: UserPayload): Promise<UserDetail> {
   logger.log('info', 'Inserting user into database:', params);
 
   const password = await bcrypt.hash(params.password);
-  const user = await User.query()
-    .insert({ ...params, password })
-    .returning('*');
+  const user = await User.query().insert({ ...params, password });
 
   logger.log('debug', 'Inserted user successfully:', user);
 

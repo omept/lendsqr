@@ -175,3 +175,41 @@ describe('Auth Workflow', () => {
     });
   });
 });
+
+describe('Sign Up API test', () => {
+  const email = faker.internet.email();
+  const password = faker.internet.password();
+  const name = `${faker.name.firstName('male')} ${faker.name.lastName(
+    'female'
+  )}`;
+  beforeAll(async () => {
+    await init();
+  });
+  test('should sign up successfully.', () => {
+    const expectedResponse = {
+      code: StatusCodes.OK,
+      message: expect.any(String),
+      data: {
+        accessToken: expect.any(String),
+        refreshToken: expect.any(String)
+      }
+    };
+
+    return request(app)
+      .post('/sign-up')
+      .send({ name, email, password })
+      .then((res) => {
+        expect(res.status).toBe(StatusCodes.OK);
+        expect(res.body).toEqual(expectedResponse);
+      });
+  });
+
+  test('should fail sign up with bad email.', () => {
+    return request(app)
+      .post('/sign-up')
+      .send({ email: 'bademail', password: `${password}` })
+      .then((res) => {
+        expect(res.status).toBe(StatusCodes.BAD_REQUEST);
+      });
+  });
+});

@@ -18,7 +18,7 @@ export async function create(
 ): Promise<UserSessionDetail> {
   logger.log('info', 'User Session: Creating session -', params);
 
-  const session = await UserSession.query().insert(params).returning('*');
+  const session = await UserSession.query().insert(params);
 
   logger.log('debug', 'User Session: Session created successfully -', session);
 

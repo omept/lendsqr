@@ -6,10 +6,13 @@ import Table from '../src/resources/enums/Table';
 
 import * as userService from '../src/services/userService';
 
-const tables = [Table.USER_SESSIONS, Table.USERS];
+const tables = [Table.WALLETS, Table.USER_SESSIONS, Table.USERS];
 
 export const TEST_EMAIL = faker.internet.email();
 export const TEST_PASSWORD = faker.internet.password();
+export const TEST_NAME = `${faker.name.firstName('male')} ${faker.name.lastName(
+  'female'
+)}`;
 
 let userData: UserDetail;
 

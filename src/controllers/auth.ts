@@ -33,6 +33,31 @@ export async function login(
 }
 
 /**
+ * Handle /sign-up request.
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ */
+export async function signUp(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const data = await authService.signUp(req.body);
+
+    res.status(StatusCodes.OK).json({
+      data,
+      code: StatusCodes.OK,
+      message: messages.auth.signUpSuccess
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
  * Handle /refresh request.
  *
  * @param {Request} req

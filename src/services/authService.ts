@@ -25,8 +25,11 @@ const { errors } = config;
  */
 export async function signUp(params: SignUpPayload): Promise<TokenResponse> {
   logger.log('info', 'SignUp: Validate email uniquesness-', params.email);
-  const userWithEmail = await User.query().where('email', '=', params.email);
-  if (userWithEmail) {
+  const userWithEmail = await (
+    await User.query().where('email', '=', params.email)
+  ).length;
+  logger.log('info', `SignUp: Validation db res: ${userWithEmail}`);
+  if (userWithEmail > 0) {
     throw new BadRequestError(errors.accountExistWithEmail);
   }
 
@@ -60,7 +63,7 @@ export async function signUp(params: SignUpPayload): Promise<TokenResponse> {
     ...loggedInUser,
     sessionId: session.id
   });
-  return { refreshToken, accessToken, defaultWalletBal };
+  return { refreshToken, accessToken };
 }
 
 /**
