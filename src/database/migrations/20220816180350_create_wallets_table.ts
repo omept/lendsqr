@@ -24,7 +24,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
     table.unique(['user_id', 'currency_id'], {
       indexName: 'unqidx_user_wallet_currency'
     });
-    table.timestamps(true, true);
+    table.timestamps(false, true);
   });
 }
 

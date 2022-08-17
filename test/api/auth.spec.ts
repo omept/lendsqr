@@ -111,7 +111,6 @@ describe('Auth Workflow', () => {
       const userResponse = {
         name: expect.any(String),
         email: expect.any(String),
-        roleId: expect.any(Number),
         updatedAt: expect.any(String),
         createdAt: expect.any(String)
       };

@@ -5,7 +5,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
   return knex.schema.createTable(Table.TRANSACTION_TYPES, (table) => {
     table.increments('id').primary();
     table.string('name', 30);
-    table.timestamps(true, true);
+    table.timestamps(false, true);
   });
 }
 

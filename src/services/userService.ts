@@ -2,7 +2,6 @@ import User from '../models/User';
 import logger from '../utils/logger';
 import * as bcrypt from '../utils/bcrypt';
 import transform from '../utils/transform';
-import Role from '../resources/enums/Role';
 import UserDetail from '../domain/entities/UserDetail';
 import UserPayload from '../domain/requests/UserPayload';
 
@@ -18,7 +17,6 @@ export async function fetchAll(): Promise<UserDetail[]> {
   const res = transform(users, (user: UserDetail) => ({
     name: user.name,
     email: user.email,
-    roleId: user.roleId,
     updatedAt: new Date(user.updatedAt).toLocaleString(),
     createdAt: new Date(user.updatedAt).toLocaleString()
   }));
@@ -39,7 +37,7 @@ export async function insert(params: UserPayload): Promise<UserDetail> {
 
   const password = await bcrypt.hash(params.password);
   const user = await User.query()
-    .insert({ ...params, password, roleId: Role.NORMAL_USER })
+    .insert({ ...params, password })
     .returning('*');
 
   logger.log('debug', 'Inserted user successfully:', user);

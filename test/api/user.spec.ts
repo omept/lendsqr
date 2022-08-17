@@ -30,7 +30,6 @@ describe('GET /users API test', () => {
     const userResponse = {
       name: expect.any(String),
       email: expect.any(String),
-      roleId: expect.any(Number),
       updatedAt: expect.any(String),
       createdAt: expect.any(String)
     };
@@ -76,13 +75,11 @@ describe('POST /users API test', () => {
       data: {
         ...userBody,
         id: expect.any(Number),
-        roleId: expect.any(Number),
         password: expect.any(String),
         createdAt: expect.any(String),
         updatedAt: expect.any(String)
       }
     };
-
     return request(app)
       .post('/users')
       .set({ authorization })

@@ -15,7 +15,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
       .inTable(Table.USERS);
     table.boolean('is_active').notNullable().defaultTo(true);
 
-    table.timestamps(true, true);
+    table.timestamps(false, true);
   });
 }
 

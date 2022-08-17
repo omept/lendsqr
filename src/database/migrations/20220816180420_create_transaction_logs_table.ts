@@ -36,7 +36,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
       .inTable(Table.TRANSACTION_TYPES)
       .onDelete('NO ACTION')
       .onUpdate('CASCADE');
-    table.timestamps(true, true);
+    table.timestamps(false, true);
   });
 }
 

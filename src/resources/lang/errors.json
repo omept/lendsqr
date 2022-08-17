@@ -2,6 +2,8 @@
   "portInUse": "Port is already in use.",
   "invalidToken": "Your token is invalid.",
   "invalidCredentials": "Invalid Credentials",
+  "accountExistWithEmail": "Account exists with supplied email",
+  "currencyNotSeeded": "Currencies have not been added",
   "accessTokenExpired": "Access token expired.",
   "noToken": "No token in authorization header.",
   "sessionNotMaintained": "Session not maintained.",

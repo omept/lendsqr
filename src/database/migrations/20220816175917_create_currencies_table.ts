@@ -6,7 +6,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
     table.increments('id').primary();
     table.string('name', 30);
     table.string('code', 30);
-    table.timestamps(true, true);
+    table.timestamps(false, true);
   });
 }
 

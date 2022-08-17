@@ -2,16 +2,16 @@ import { Model } from 'objection';
 
 import Table from '../resources/enums/Table';
 
-class User extends Model {
+class Wallet extends Model {
   id!: number;
-  name!: string;
-  email!: string;
-  password!: string;
+  currencyId!: number;
+  userId!: number;
+  balance!: number;
   createdAt!: string;
   updatedAt!: string;
 
   static get tableName(): string {
-    return Table.USERS;
+    return Table.WALLETS;
   }
 
   $beforeInsert() {
@@ -24,4 +24,4 @@ class User extends Model {
   }
 }
 
-export default User;
+export default Wallet;
