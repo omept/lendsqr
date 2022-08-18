@@ -103,27 +103,17 @@ describe('Auth Workflow', () => {
     });
 
     test('should successfully access API with new access token.', () => {
-      const expectedResponse = {
-        code: StatusCodes.OK,
-        message: expect.any(String),
-        data: expect.any(Array)
+      const userBody = {
+        name: faker.name.findName(),
+        email: 'dummy-user@starter.com',
+        password: faker.internet.password()
       };
-      const userResponse = {
-        name: expect.any(String),
-        email: expect.any(String),
-        updatedAt: expect.any(String),
-        createdAt: expect.any(String)
-      };
-
       return request(app)
-        .get('/users')
+        .post('/users')
         .set({ authorization: `Bearer ${accessToken}` })
+        .send(userBody)
         .then((res) => {
-          const userInfo = getRandomElement(res.body.data);
-
           expect(res.status).toBe(StatusCodes.OK);
-          expect(res.body).toEqual(expectedResponse);
-          expect(userInfo).toEqual(userResponse);
         });
     });
 

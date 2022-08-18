@@ -5,48 +5,6 @@ import { StatusCodes } from 'http-status-codes';
 import app from '../../src/app';
 import { getRandomElement, init, TEST_EMAIL, TEST_PASSWORD } from '../helper';
 
-describe('GET /users API test', () => {
-  const email = TEST_EMAIL;
-  const password = TEST_PASSWORD;
-
-  let authorization: string;
-
-  beforeAll(async () => {
-    await init();
-
-    const response = await request(app)
-      .post('/login')
-      .send({ email, password });
-
-    authorization = `Bearer ${response.body.data.accessToken}`;
-  });
-
-  test('should return users list.', () => {
-    const expectedResponse = {
-      code: StatusCodes.OK,
-      message: expect.any(String),
-      data: expect.any(Array)
-    };
-    const userResponse = {
-      name: expect.any(String),
-      email: expect.any(String),
-      updatedAt: expect.any(String),
-      createdAt: expect.any(String)
-    };
-
-    return request(app)
-      .get('/users')
-      .set({ authorization })
-      .then((res) => {
-        const userInfo = getRandomElement(res.body.data);
-
-        expect(res.status).toBe(StatusCodes.OK);
-        expect(res.body).toEqual(expectedResponse);
-        expect(userInfo).toEqual(userResponse);
-      });
-  });
-});
-
 describe('POST /users API test', () => {
   let authorization: string;
 

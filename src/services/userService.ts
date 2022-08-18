@@ -1,30 +1,32 @@
 import User from '../models/User';
 import logger from '../utils/logger';
 import * as bcrypt from '../utils/bcrypt';
-import transform from '../utils/transform';
+// import transform from '../utils/transform';
 import UserDetail from '../domain/entities/UserDetail';
+// import WalletDetail from '../domain/entities/WalletDetail';
 import UserPayload from '../domain/requests/UserPayload';
+// import UserFundPayload from '../domain/requests/UserFundPayload';
 
 /**
  * Fetch all users from users table.
  *
  * @returns {Promise<UserDetail[]>}
  */
-export async function fetchAll(): Promise<UserDetail[]> {
-  logger.log('info', 'Fetching users from database');
+// export async function fetchAll(): Promise<UserDetail[]> {
+//   logger.log('info', 'Fetching users from database');
 
-  const users = await await User.query();
-  const res = transform(users, (user: UserDetail) => ({
-    name: user.name,
-    email: user.email,
-    updatedAt: new Date(user.updatedAt).toLocaleString(),
-    createdAt: new Date(user.updatedAt).toLocaleString()
-  }));
+//   const users = await await User.query();
+//   const res = transform(users, (user: UserDetail) => ({
+//     name: user.name,
+//     email: user.email,
+//     updatedAt: new Date(user.updatedAt).toLocaleString(),
+//     createdAt: new Date(user.updatedAt).toLocaleString()
+//   }));
 
-  logger.log('debug', 'Fetched all users successfully:', res);
+//   logger.log('debug', 'Fetched all users successfully:', res);
 
-  return res;
-}
+//   return res;
+// }
 
 /**
  * Insert user from given user payload

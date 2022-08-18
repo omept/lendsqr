@@ -4,7 +4,7 @@
 interface WalletDetail {
   id?: number;
   useId: number;
-  balance: string;
+  balance: number;
   currencyName: string;
   currencyCode: string;
   createdAt: string;
