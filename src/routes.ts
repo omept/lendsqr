@@ -9,6 +9,7 @@ import authenticate from './middlewares/authenticate';
 import { loginSchema } from './validators/loginRequest';
 import { signUpSchema } from './validators/signUpRequest';
 import { userPOSTSchema } from './validators/userRequest';
+import { walletTransferSchema } from './validators/walletTransferRequest';
 import { walletFundSchema } from './validators/walletFundRequest';
 import validateRefreshToken from './middlewares/validateRefreshToken';
 
@@ -34,4 +35,12 @@ router.post(
   validate(walletFundSchema),
   walletController.fund
 );
+
+router.post(
+  '/wallet/transfer',
+  authenticate,
+  validate(walletTransferSchema),
+  walletController.transfer
+);
+
 export default router;

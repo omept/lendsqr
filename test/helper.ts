@@ -15,20 +15,19 @@ const tables = [
 
 export const TEST_EMAIL = faker.internet.email();
 export const TEST_PASSWORD = faker.internet.password();
-export const TEST_NAME = `${faker.name.firstName('male')} ${faker.name.lastName(
-  'female'
-)}`;
+export const TEST_NAME = faker.name.findName();
 
 let userWalletData: UserWalletDetail;
+let userWalletData2: UserWalletDetail;
 
 /**
  * Create user.
  *
  * @returns Promise
  */
-async function createUser(): Promise<UserWalletDetail> {
+async function createUser(email?: string): Promise<UserWalletDetail> {
   return await userService.insert({
-    email: TEST_EMAIL,
+    email: email ?? TEST_EMAIL,
     password: TEST_PASSWORD,
     name: faker.name.findName()
   });
@@ -49,6 +48,19 @@ export async function init(): Promise<UserWalletDetail> {
   userWalletData = await createUser();
 
   return userWalletData;
+}
+
+/**
+ * Delete all table's data.
+ */
+export async function pairUser(): Promise<UserWalletDetail> {
+  if (userWalletData2) {
+    return userWalletData2;
+  }
+
+  userWalletData2 = await createUser(faker.internet.email());
+
+  return userWalletData2;
 }
 
 /**

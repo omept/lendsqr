@@ -11,6 +11,8 @@
   "portRequirePrivilege": "Port requires elevated privileges.",
   "unAuthorized": "You are not authorized to perform this action.",
   "invalidWallet": "Invalid wallet.",
+  "walletsCurrencyMismatch": "Wallets currencies does not match.",
   "invalidUserWallet": "Invalid user wallet.",
+  "insufficientBalance": "insufficient balance.",
   "transactionTypeNotSeeded": "Transaction type not yet available."
 }
