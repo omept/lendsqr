@@ -1,31 +1,16 @@
 import { Model } from 'objection';
 
 import Table from '../resources/enums/Table';
-import Currency from './Currency';
 
-class Wallet extends Model {
+class TransactionType extends Model {
   id!: number;
-  currencyId!: number;
-  userId!: number;
-  balance!: number;
+  name!: string;
   createdAt!: string;
   updatedAt!: string;
-  currency?: Currency;
 
   static get tableName(): string {
-    return Table.WALLETS;
+    return Table.TRANSACTION_TYPES;
   }
-
-  static relationMappings = {
-    currency: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: Currency,
-      join: {
-        from: 'wallets.currency_id',
-        to: 'currencies.id'
-      }
-    }
-  };
 
   $beforeInsert() {
     this.createdAt = new Date().toJSON().slice(0, 19).replace('T', ' ');
@@ -37,4 +22,4 @@ class Wallet extends Model {
   }
 }
 
-export default Wallet;
+export default TransactionType;

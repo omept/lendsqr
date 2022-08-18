@@ -4,9 +4,6 @@ import { Request, Response, NextFunction } from 'express';
 import config from '../config/config';
 import * as walletService from '../services/walletService';
 import WalletFundPayload from '../domain/requests/WalletFundPayload';
-import Wallet from '../models/Wallet';
-import logger from 'src/utils/logger';
-import BadRequestError from 'src/exceptions/BadRequestError';
 
 const { messages } = config;
 

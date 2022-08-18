@@ -3,12 +3,10 @@
  */
 interface WalletDetail {
   id?: number;
-  useId: number;
+  userId: number;
   balance: number;
-  currencyName: string;
-  currencyCode: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export default WalletDetail;

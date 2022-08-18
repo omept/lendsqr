@@ -10,5 +10,7 @@
   "refreshTokenExpired": "Session has been expired.",
   "portRequirePrivilege": "Port requires elevated privileges.",
   "unAuthorized": "You are not authorized to perform this action.",
-  "invalidWallet": "Invalid wallet."
+  "invalidWallet": "Invalid wallet.",
+  "invalidUserWallet": "Invalid user wallet.",
+  "transactionTypeNotSeeded": "Transaction type not yet available."
 }

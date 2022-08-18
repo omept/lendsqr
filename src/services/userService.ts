@@ -1,40 +1,21 @@
 import User from '../models/User';
 import logger from '../utils/logger';
 import * as bcrypt from '../utils/bcrypt';
-// import transform from '../utils/transform';
-import UserDetail from '../domain/entities/UserDetail';
-// import WalletDetail from '../domain/entities/WalletDetail';
 import UserPayload from '../domain/requests/UserPayload';
-// import UserFundPayload from '../domain/requests/UserFundPayload';
+import Currency from '../models/Currency';
+import BadRequestError from '../exceptions/BadRequestError';
+import config from '../config/config';
+import Wallet from '../models/Wallet';
+import UserWalletDetail from '../domain/entities/UserWalletDetail';
 
-/**
- * Fetch all users from users table.
- *
- * @returns {Promise<UserDetail[]>}
- */
-// export async function fetchAll(): Promise<UserDetail[]> {
-//   logger.log('info', 'Fetching users from database');
-
-//   const users = await await User.query();
-//   const res = transform(users, (user: UserDetail) => ({
-//     name: user.name,
-//     email: user.email,
-//     updatedAt: new Date(user.updatedAt).toLocaleString(),
-//     createdAt: new Date(user.updatedAt).toLocaleString()
-//   }));
-
-//   logger.log('debug', 'Fetched all users successfully:', res);
-
-//   return res;
-// }
-
+const { errors } = config;
 /**
  * Insert user from given user payload
  *
  * @param {UserPayload} params
- * @returns {Promise<UserDetail>}
+ * @returns {Promise<UserWalletDetail>}
  */
-export async function insert(params: UserPayload): Promise<UserDetail> {
+export async function insert(params: UserPayload): Promise<UserWalletDetail> {
   logger.log('info', 'Inserting user into database:', params);
 
   const password = await bcrypt.hash(params.password);
@@ -42,5 +23,20 @@ export async function insert(params: UserPayload): Promise<UserDetail> {
 
   logger.log('debug', 'Inserted user successfully:', user);
 
-  return user;
+  logger.log('debug', 'Inserting user wallet');
+  const currency = await Currency.query().first();
+  if (currency == undefined) {
+    throw new BadRequestError(errors.currencyNotSeeded);
+  }
+
+  const defaultWalletBal = 0;
+  const walletParams = {
+    userId: user.id,
+    currencyId: currency.id,
+    balance: defaultWalletBal
+  };
+  const wallet = await Wallet.query().insert({ ...walletParams });
+  logger.log('debug', 'Inserted user wallet:', walletParams);
+
+  return { user, wallet, currency };
 }

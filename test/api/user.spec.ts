@@ -31,11 +31,9 @@ describe('POST /users API test', () => {
       code: StatusCodes.OK,
       message: expect.any(String),
       data: {
-        ...userBody,
-        id: expect.any(Number),
-        password: expect.any(String),
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String)
+        user: expect.any(Object),
+        currency: expect.any(Object),
+        wallet: expect.any(Object)
       }
     };
     return request(app)

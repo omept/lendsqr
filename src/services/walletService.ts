@@ -4,9 +4,12 @@ import WalletDetail from '../domain/entities/WalletDetail';
 import WalletFundPayload from '../domain/requests/WalletFundPayload';
 import Wallet from '../models/Wallet';
 import BadRequestError from '../exceptions/BadRequestError';
+import TransactionLogs from '../models/TransactionLogs';
+import TransactionType from '../models/TransactionType';
+import TransactionTypes from '../resources/enums/TransactionTypes';
 const { errors } = config;
 /**
- * Insert user from given user payload
+ * Fund user wallet
  *
  * @param {WalletFundPayload} params
  * @returns {Promise<WalletDetail>}
@@ -17,34 +20,45 @@ export async function fund(
 ): Promise<WalletDetail> {
   logger.log('info', 'performing funding for user', { params, userId });
 
-  const wallet = await Wallet.query().findOne({ id: params.walletId });
+  const wallet = await Wallet.query()
+    .findOne({ id: params.walletId })
+    .withGraphFetched('currency');
 
   if (!wallet) {
     throw new BadRequestError(errors.invalidWallet);
+  } else if (wallet.userId != userId) {
+    throw new BadRequestError(errors.invalidUserWallet);
   }
 
-  // "data": {
-  //   "name": "Ms. Roman Collins",
-  //   "email": "Darren89@gmail.com",
-  //   "userId": 21,
-  //   "sessionId": 26
-  // }
-  //   const res = transform(users, (user: UserDetail) => ({
-  //     name: user.name,
-  //     email: user.email,
-  //     updatedAt: new Date(user.updatedAt).toLocaleString(),
-  //     createdAt: new Date(user.updatedAt).toLocaleString()
-  //   }));
-  const wd = {
-    id: 4,
-    useId: 5,
-    userId,
-    balance: 40000,
-    currencyName: 'Naira',
-    currencyCode: 'NGN',
-    createdAt: 'string',
-    updatedAt: 'string'
-  } as WalletDetail;
+  const transType = await TransactionType.query().findOne({
+    name: TransactionTypes.TOP_UP
+  });
+  if (!transType) {
+    throw new BadRequestError(errors.transactionTypeNotSeeded);
+  }
 
-  return wd;
+  const amt = params.amount * 100;
+  const newBal = amt + wallet.balance;
+
+  logger.log('info', 'update user wallet balance', {
+    current: newBal,
+    prev: wallet.balance
+  });
+  await Wallet.query().findById(params.walletId).patch({
+    balance: newBal
+  });
+
+  const transLog = {
+    userId,
+    transactionTypeId: transType.id,
+    fromWalletId: wallet.id,
+    toWalletId: wallet.id
+  };
+  logger.log('info', 'save transaction log to db:', transLog);
+  await TransactionLogs.query().insert(transLog);
+
+  return {
+    userId,
+    balance: newBal
+  } as WalletDetail;
 }
