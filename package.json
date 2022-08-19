@@ -2,7 +2,7 @@
   "name": "lendsqr",
   "version": "1.0.0",
   "description": "Lendsqr API Assessment with Typescript",
-  "main": "index.js",
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:ong-gtp/lendsqr.git"
@@ -15,7 +15,7 @@
     "node": "16.15.0"
   },
   "scripts": {
-    "start": "serve -s build/index.js",
+    "start": "nodemon -q build/index.js",
     "start-dev": "concurrently 'npx tsc --watch' 'nodemon -q build/index.js'",
     "transpile": "tsc",
     "postinstall": "tsc",

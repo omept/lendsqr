@@ -1,5 +1,5 @@
 # Lendsqr API Assessment
-Wallet transaction API application built with Typescript, Node.js, Express, jsonwebtoken, joi, Knex (MySQL), and Objection.js
+Wallet transaction API application built with Typescript, Node.js, Express, jsonwebtoken, helmet, joi, Knex (MySQL), and Objection.js
 
 ## Installation Requirements
 
