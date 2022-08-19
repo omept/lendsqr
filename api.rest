@@ -34,3 +34,34 @@ Authorization: {{refreshToken}}
 
 POST {{host}}/logout HTTP/1.1
 Authorization: {{refreshToken}}
+
+
+###
+POST {{host}}/wallet/fund HTTP/1.1
+Authorization: {{refreshToken}}
+
+{
+  "walletId": 1,
+  "amount": 4000
+}
+
+
+###
+POST {{host}}/wallet/transfer HTTP/1.1
+Authorization: {{refreshToken}}
+
+{
+  "recipientWalletId": 3,
+  "walletId": 1,
+  "amount": 4000
+}
+
+
+###
+POST {{host}}/wallet/withdraw HTTP/1.1
+Authorization: {{refreshToken}}
+
+{
+  "walletId": 1,
+  "amount": 4000
+}

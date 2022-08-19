@@ -1,6 +1,6 @@
 {
   "name": "lendsqr",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Lendsqr API Assessment with Typescript",
   "main": "index.js",
   "repository": {
@@ -26,6 +26,7 @@
     "test:seed": "NODE_ENV=test yarn seed",
     "seed": "knex seed:run --knexfile=knexfile.ts --verbose",
     "migrate": "knex migrate:latest --knexfile=knexfile.ts --verbose",
+    "migrate:test": "NODE_ENV=test knex migrate:latest --knexfile=knexfile.ts --verbose",
     "rollback": "knex migrate:rollback --knexfile=knexfile.ts --verbose",
     "make:seeder": "knex seed:make --knexfile=knexfile.ts -x ts",
     "make:migration": "knex migrate:make --knexfile=knexfile.ts -x ts",
