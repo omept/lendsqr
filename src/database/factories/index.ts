@@ -1,5 +1,5 @@
 import * as userFactory from './userFactory';
-import UserDetail from '../../domain/entities/UserDetail';
+import UserWalletDetail from '../../domain/entities/UserWalletDetail';
 
 interface Callback<T> {
   run: () => Promise<T>;
@@ -10,7 +10,7 @@ export enum FactoryType {
 }
 
 export interface Factories {
-  [FactoryType.USER]: Callback<UserDetail>;
+  [FactoryType.USER]: Callback<UserWalletDetail>;
 }
 
 const factories: Factories = { [FactoryType.USER]: userFactory };
