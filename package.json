@@ -17,14 +17,14 @@
   "scripts": {
     "start": "concurrently 'npx tsc --watch' 'nodemon -q build/index.js'",
     "transpile": "tsc",
-    "postinstall": "npm run build",
+    "postinstall": "yarn build",
     "clean": "rimraf build",
     "sync-env": "sync-dotenv",
-    "build": "concurrently 'npm run clean' 'npm run lint:fix' 'npm run transpile'",
+    "build": "concurrently 'yarn clean' 'yarn lint:fix' 'yarn transpile'",
     "send:mail": "ts-node scripts/mail-test",
     "load:fake": "ts-node scripts/fake-loader",
-    "test": "NODE_ENV=test npm run migrate && NODE_ENV=test jest --forceExit --detectOpenHandles --maxWorkers=1 --verbose",
-    "test:seed": "NODE_ENV=test npm run seed",
+    "test": "NODE_ENV=test yarn migrate && NODE_ENV=test jest --forceExit --detectOpenHandles --maxWorkers=1 --verbose",
+    "test:seed": "NODE_ENV=test yarn seed",
     "seed": "knex seed:run --knexfile=knexfile.ts --verbose",
     "migrate": "knex migrate:latest --knexfile=knexfile.ts --verbose",
     "migrate:test": "NODE_ENV=test knex migrate:latest --knexfile=knexfile.ts --verbose",
@@ -36,7 +36,7 @@
     "lint:fix": "eslint --fix . --ext .ts,.json",
     "prettify": "prettier 'src/**/*.ts' --write",
     "prettier:check": "prettier --list-different 'src/**/*.ts'",
-    "format:code": "concurrently 'npm run lint:fix' 'npm run prettify' 'sync-dotenv'"
+    "format:code": "concurrently 'yarn lint:fix' 'yarn prettify' 'sync-dotenv'"
   },
   "lint-staged": {
     "*.{ts,json}": [
