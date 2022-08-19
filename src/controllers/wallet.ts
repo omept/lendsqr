@@ -5,6 +5,7 @@ import config from '../config/config';
 import * as walletService from '../services/walletService';
 import WalletFundPayload from '../domain/requests/WalletFundPayload';
 import WalletTransferPayload from '../domain/requests/WalletTransferPayload';
+import WalletWithdrawPayload from '../domain/requests/WalletWithdrawPayload';
 
 const { messages } = config;
 
@@ -53,6 +54,34 @@ export async function transfer(
     const trnfrPayload = req.body as WalletTransferPayload;
 
     const response = await walletService.transfer(trnfrPayload, userId);
+
+    res.status(StatusCodes.OK).json({
+      code: StatusCodes.OK,
+      data: response,
+      message: messages.users.insert
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * Handle /wallet/withdraw POST request.
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ */
+export async function withdraw(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const userId = res.locals.loggedInPayload.userId;
+    const withdrawPayload = req.body as WalletWithdrawPayload;
+
+    const response = await walletService.withdraw(withdrawPayload, userId);
 
     res.status(StatusCodes.OK).json({
       code: StatusCodes.OK,

@@ -11,6 +11,7 @@ import { signUpSchema } from './validators/signUpRequest';
 import { userPOSTSchema } from './validators/userRequest';
 import { walletTransferSchema } from './validators/walletTransferRequest';
 import { walletFundSchema } from './validators/walletFundRequest';
+import { walletWithdrawSchema } from './validators/walletWithdrawRequest';
 import validateRefreshToken from './middlewares/validateRefreshToken';
 
 const router: Router = Router();
@@ -41,6 +42,13 @@ router.post(
   authenticate,
   validate(walletTransferSchema),
   walletController.transfer
+);
+
+router.post(
+  '/wallet/withdraw',
+  authenticate,
+  validate(walletWithdrawSchema),
+  walletController.withdraw
 );
 
 export default router;

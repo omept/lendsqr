@@ -8,6 +8,7 @@ import TransactionLogs from '../models/TransactionLogs';
 import TransactionType from '../models/TransactionType';
 import TransactionTypes from '../resources/enums/TransactionTypes';
 import WalletTransferPayload from '../domain/requests/WalletTransferPayload';
+import WalletWithdrawPayload from '../domain/requests/WalletWithdrawPayload';
 const { errors } = config;
 /**
  * Fund user wallet
@@ -51,6 +52,7 @@ export async function fund(
   const transLog = {
     userId,
     transactionTypeId: transType.id,
+    amount: params.amount,
     fromWalletId: wallet.id,
     toWalletId: wallet.id
   };
@@ -62,7 +64,17 @@ export async function fund(
     balance: newBal
   } as WalletDetail;
 }
-export async function transfer(params: WalletTransferPayload, userId: number) {
+
+/**
+ * Transfer funds to a user wallet
+ *
+ * @param {WalletFundPayload} params
+ * @returns {Promise<WalletDetail>}
+ */
+export async function transfer(
+  params: WalletTransferPayload,
+  userId: number
+): Promise<WalletDetail> {
   logger.log('info', 'performing inter-wallet transfer', { params, userId });
 
   const senderWallet = await Wallet.query()
@@ -91,9 +103,11 @@ export async function transfer(params: WalletTransferPayload, userId: number) {
   logger.log('info', 'validated that wallet currencies match');
 
   const transTypes = await TransactionType.query();
-  const topUp = transTypes.find((t) => t.name === TransactionTypes.TOP_UP);
-  const withdraw = transTypes.find((t) => t.name === TransactionTypes.WITHDRAW);
-  if (!topUp || !withdraw) {
+  const topUpType = transTypes.find((t) => t.name === TransactionTypes.TOP_UP);
+  const withdrawType = transTypes.find(
+    (t) => t.name === TransactionTypes.WITHDRAW
+  );
+  if (!topUpType || !withdrawType) {
     throw new BadRequestError(errors.transactionTypeNotSeeded);
   }
 
@@ -121,7 +135,8 @@ export async function transfer(params: WalletTransferPayload, userId: number) {
   const transLogs = [
     {
       userId: senderWallet.userId,
-      transactionTypeId: withdraw.id,
+      transactionTypeId: withdrawType.id,
+      amount: params.amount,
       fromWalletId: senderWallet.id,
       toWalletId: recipientWallet.id,
       createdAt: new Date().toJSON().slice(0, 19).replace('T', ' '),
@@ -129,7 +144,8 @@ export async function transfer(params: WalletTransferPayload, userId: number) {
     },
     {
       userId: recipientWallet.userId,
-      transactionTypeId: topUp.id,
+      transactionTypeId: topUpType.id,
+      amount: params.amount,
       fromWalletId: senderWallet.id,
       toWalletId: recipientWallet.id,
       createdAt: new Date().toJSON().slice(0, 19).replace('T', ' '),
@@ -142,5 +158,63 @@ export async function transfer(params: WalletTransferPayload, userId: number) {
   return {
     userId: senderWallet.userId,
     balance: newSenderBal
+  } as WalletDetail;
+}
+
+/**
+ * Withdraw funds to a user wallet
+ *
+ * @param {WalletWithdrawPayload} params
+ * @returns {Promise<WalletDetail>}
+ */
+export async function withdraw(
+  params: WalletWithdrawPayload,
+  userId: number
+): Promise<WalletDetail> {
+  logger.log('info', 'performing wallet withdrawal', { params, userId });
+
+  const wallet = await Wallet.query().findOne({ id: params.walletId });
+
+  if (!wallet) {
+    throw new BadRequestError(errors.invalidWallet);
+  } else if (wallet.userId != userId) {
+    throw new BadRequestError(errors.invalidUserWallet);
+  }
+  logger.log('info', 'validated wallet details');
+
+  const transType = await TransactionType.query().findOne({
+    name: TransactionTypes.WITHDRAW
+  });
+  if (!transType) {
+    throw new BadRequestError(errors.transactionTypeNotSeeded);
+  }
+
+  const newBal = wallet.balance - params.amount;
+  if (newBal < 0) {
+    throw new BadRequestError(errors.insufficientBalance);
+  }
+  logger.log('info', 'updating wallet balance', {
+    current: newBal,
+    prev: wallet.balance
+  });
+  await Wallet.query().findById(params.walletId).patch({
+    balance: newBal
+  });
+
+  const transLog = {
+    userId: wallet.userId,
+    transactionTypeId: transType.id,
+    amount: params.amount,
+    fromWalletId: wallet.id,
+    toWalletId: wallet.id,
+    createdAt: new Date().toJSON().slice(0, 19).replace('T', ' '),
+    updatedAt: new Date().toJSON().slice(0, 19).replace('T', ' ')
+  };
+  logger.log('info', 'saving transaction logs to db:', transLog);
+  await TransactionLogs.query().insert(transLog);
+
+  return {
+    userId: wallet.userId,
+    balance: newBal
   } as WalletDetail;
 }

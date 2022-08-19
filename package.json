@@ -23,6 +23,7 @@
     "send:mail": "ts-node scripts/mail-test",
     "load:fake": "ts-node scripts/fake-loader",
     "test": "NODE_ENV=test yarn migrate && NODE_ENV=test jest --forceExit --detectOpenHandles --maxWorkers=1 --verbose",
+    "test:seed": "NODE_ENV=test yarn seed",
     "seed": "knex seed:run --knexfile=knexfile.ts --verbose",
     "migrate": "knex migrate:latest --knexfile=knexfile.ts --verbose",
     "rollback": "knex migrate:rollback --knexfile=knexfile.ts --verbose",

@@ -4,6 +4,7 @@ import Table from '../../resources/enums/Table';
 export function up(knex: Knex): Knex.SchemaBuilder {
   return knex.schema.createTable(Table.TRANSACTION_LOGS, (table) => {
     table.increments('id').primary();
+    table.bigInteger('amount').unsigned().notNullable().defaultTo(0);
     table
       .integer('user_id')
       .unsigned()

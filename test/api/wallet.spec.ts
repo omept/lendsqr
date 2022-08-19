@@ -25,7 +25,7 @@ describe('Wallet workflow test', () => {
     authorization = `Bearer ${response.body.data.accessToken}`;
   });
 
-  test("POST /wallet/fund should successfully fund user wallet and return user's wallet detail.", () => {
+  test("POST /wallet/fund should successfully fund user wallet and return user's wallet detail.", async () => {
     const userBody = {
       walletId: userWalletDetail?.wallet?.id,
       amount: 5000 // kobo
@@ -38,14 +38,12 @@ describe('Wallet workflow test', () => {
         balance: 5000 // kobo
       }
     };
-    return request(app)
+    const res = await request(app)
       .post('/wallet/fund')
       .set({ authorization })
-      .send(userBody)
-      .then((res) => {
-        expect(res.status).toBe(StatusCodes.OK);
-        expect(res.body).toEqual(expectedResponse);
-      });
+      .send(userBody);
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body).toEqual(expectedResponse);
   });
 
   test("POST /wallet/transfer should successfully transfer fund from one user to another and return sender user's wallet detail.", () => {
@@ -73,42 +71,44 @@ describe('Wallet workflow test', () => {
       });
   });
 
-  // test("POST /wallet/withdraw should successfully deduct fund from a user and return their wallet detail.", () => {
+  test('POST /wallet/withdraw should successfully deduct fund from a user and return their wallet detail.', async () => {
+    const fundBody = {
+      walletId: userWalletDetail?.wallet?.id,
+      amount: 10000 // kobo
+    };
+    const expectedResponse1 = {
+      code: StatusCodes.OK,
+      message: expect.any(String),
+      data: {
+        userId: expect.any(Number),
+        balance: 10000 // kobo
+      }
+    };
+    const res = await request(app)
+      .post('/wallet/fund')
+      .set({ authorization })
+      .send(fundBody);
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body).toEqual(expectedResponse1);
 
-  //   const userBody = {
-  //     walletId: userWalletDetail?.wallet?.id,
-  //     amount: 10000 // kobo
-  //   };
-  //   request(app)
-  //     .post('/wallet/fund')
-  //     .set({ authorization })
-  //     .send(userBody)
-  //     .then((res) => {
-  //       expect(res.status).toBe(StatusCodes.OK);
-  //       expect(res.body).toEqual(expectedResponse);
-  //     });
+    const reqBody = {
+      walletId: userWalletDetail?.wallet?.id,
+      amount: 5000 // kobo
+    };
+    const expectedResponse2 = {
+      code: StatusCodes.OK,
+      message: expect.any(String),
+      data: {
+        userId: expect.any(Number),
+        balance: 5000 // kobo
+      }
+    };
 
-  //   const reqBody = {
-  //     walletId: userWalletDetail?.wallet?.id,
-  //     recipientWalletId: userWalletDetail2?.wallet?.id,
-  //     amount: 5000 // kobo
-  //   };
-  //   const expectedResponse = {
-  //     code: StatusCodes.OK,
-  //     message: expect.any(String),
-  //     data: {
-  //       userId: expect.any(Number),
-  //       balance: 500000 // kobo
-  //     }
-  //   };
-
-  //   return request(app)
-  //     .post('/wallet/withdraw')
-  //     .set({ authorization })
-  //     .send(reqBody)
-  //     .then((res) => {
-  //       expect(res.status).toBe(StatusCodes.OK);
-  //       expect(res.body).toEqual(expectedResponse);
-  //     });
-  // });
+    const res2 = await request(app)
+      .post('/wallet/withdraw')
+      .set({ authorization })
+      .send(reqBody);
+    expect(res2.status).toBe(StatusCodes.OK);
+    expect(res2.body).toEqual(expectedResponse2);
+  });
 });

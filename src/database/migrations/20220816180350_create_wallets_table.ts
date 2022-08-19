@@ -20,7 +20,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
       .inTable(Table.CURRENCIES)
       .onDelete('NO ACTION')
       .onUpdate('CASCADE');
-    table.bigInteger('balance');
+    table.bigInteger('balance').unsigned().notNullable().defaultTo(0);
     table.unique(['user_id', 'currency_id'], {
       indexName: 'unqidx_user_wallet_currency'
     });

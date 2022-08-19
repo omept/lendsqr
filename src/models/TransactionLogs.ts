@@ -8,6 +8,7 @@ import Wallet from './Wallet';
 class TransactionLogs extends Model {
   id!: number;
   userId!: number;
+  amount!: number;
   transactionTypeId!: number;
   fromWalletId!: number;
   toWalletId!: number;
