@@ -12,7 +12,7 @@
     "email": "georgetheprogrammer@gmail.com"
   },
   "engines": {
-    "node": ">= 16.5.0"
+    "node": "16.15.0"
   },
   "scripts": {
     "start": "concurrently 'npx tsc --watch' 'nodemon -q build/index.js'",
