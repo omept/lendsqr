@@ -19,6 +19,7 @@ Wallet transaction API application built with Typescript, Node.js, Express, json
 - A user can have multiple wallets
 - A wallet can only have one currency
 - Application supports multiple currencies
+- Wallets must have the same currency for paired transactions
 - No real money is transfered
 
 ## Getting Started
