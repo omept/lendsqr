@@ -14,7 +14,7 @@ export default {
   version: process.env.npm_package_version,
   appUrl: process.env.APP_URL,
   environment: process.env.NODE_ENV || 'development',
-  port: isTestEnvironment ? process.env.TEST_APP_PORT : process.env.APP_PORT,
+  port: isTestEnvironment ? process.env.TEST_APP_PORT : process.env.PORT,
   pagination: {
     page: 1,
     maxRows: 20
