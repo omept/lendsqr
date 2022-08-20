@@ -15,7 +15,7 @@
     "node": "16.15.0"
   },
   "scripts": {
-    "start": "NODE_ENV='production' node build/index.js",
+    "start": "NODE_ENV='production' && node build/index.js",
     "start-dev": "concurrently 'npx tsc --watch' 'nodemon -q build/index.js'",
     "transpile": "tsc",
     "postinstall": "tsc",
