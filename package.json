@@ -15,7 +15,7 @@
     "node": "16.15.0"
   },
   "scripts": {
-    "start": "NODE_ENV='production' && node build/index.js",
+    "start": "node build/index.js",
     "start-dev": "concurrently 'npx tsc --watch' 'nodemon -q build/index.js'",
     "transpile": "tsc",
     "postinstall": "tsc",
@@ -32,7 +32,6 @@
     "rollback": "knex migrate:rollback --knexfile=knexfile.ts --verbose",
     "make:seeder": "knex seed:make --knexfile=knexfile.ts -x ts",
     "make:migration": "knex migrate:make --knexfile=knexfile.ts -x ts",
-    "prepare": "husky install",
     "lint": "eslint . --ext .ts,.json",
     "lint:fix": "eslint --fix . --ext .ts,.json",
     "prettify": "prettier 'src/**/*.ts' --write",

@@ -1,14 +1,14 @@
 import fs from 'fs';
 import DailyRotateFile from 'winston-daily-rotate-file';
-import { createLogger, format, transports } from 'winston';
+import { createLogger, format, transports, Logger } from 'winston';
 
 import context from './context';
 import app from '../config/config';
 
-const { environment, logging } = app;
+const { environment, logging, logFileGenarationSupport } = app;
 const { combine, colorize, splat, printf, timestamp } = format;
 
-const keysToFilter = ['password', 'token'];
+const keysToFilter = ['password', 'token', 'balance', 'amount'];
 
 const formatter = printf((info: any) => {
   const { level, message, timestamp: ts, ...restMeta } = info;
@@ -29,29 +29,38 @@ const formatter = printf((info: any) => {
   return `[ ${ts} ] [ ${transactionId} ] - [ ${level} ] ${message} ${meta}`;
 });
 
-if (!fs.existsSync('logs')) {
-  fs.mkdirSync('logs');
-}
-
 let trans: any = [];
+let logger: Logger;
 
-if (environment === 'development') {
-  trans = [new transports.Console()];
+if (logFileGenarationSupport == 'false') {
+  logger = createLogger({
+    level: logging.level,
+    format: combine(splat(), colorize(), timestamp(), formatter),
+    transports: [new transports.Console()]
+  });
+} else {
+  if (!fs.existsSync('logs')) {
+    fs.mkdirSync('logs');
+  }
+
+  if (environment === 'development') {
+    trans = [new transports.Console()];
+  }
+
+  logger = createLogger({
+    level: logging.level,
+    format: combine(splat(), colorize(), timestamp(), formatter),
+    transports: [
+      ...trans,
+      new DailyRotateFile({
+        maxSize: logging.maxSize,
+        maxFiles: logging.maxFiles,
+        datePattern: logging.datePattern,
+        zippedArchive: true,
+        filename: `logs/${logging.level}-%DATE%.log`
+      })
+    ]
+  });
 }
-
-const logger = createLogger({
-  level: logging.level,
-  format: combine(splat(), colorize(), timestamp(), formatter),
-  transports: [
-    ...trans,
-    new DailyRotateFile({
-      maxSize: logging.maxSize,
-      maxFiles: logging.maxFiles,
-      datePattern: logging.datePattern,
-      zippedArchive: true,
-      filename: `logs/${logging.level}-%DATE%.log`
-    })
-  ]
-});
 
 export default logger;
