@@ -8,6 +8,8 @@ module.exports = {
     connection: {
       charset: 'utf8',
       timezone: 'UTC',
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
       database: process.env.DB_NAME,
