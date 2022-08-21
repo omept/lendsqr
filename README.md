@@ -9,7 +9,7 @@ Wallet transaction API application built with Typescript, Node.js, Express, json
 - MySQL (or any prefered Knex.js supported database)
 
 ## Notes
-
+- App is deployed in heroku at: https://lendsqr-gtp.herokuapp.com/
 - All amounts are in kobo
 - App's default seeded currency is Naira
 - App's default transaction types are `TOP_UP` and `WITHDRAW` 
