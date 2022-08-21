@@ -3,6 +3,31 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 module.exports = {
+  production: {
+    client: process.env.DB_CLIENT,
+    connection: {
+      charset: 'utf8',
+      timezone: 'UTC',
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      directory: 'build/database/migrations',
+      tableName: 'migrations',
+      stub: 'build/resources/stubs/migration.stub'
+    },
+    seeds: {
+      directory: 'build/database/seeds',
+      stub: 'build/resources/stubs/seed.stub'
+    }
+  },
   development: {
     client: process.env.DB_CLIENT,
     connection: {
