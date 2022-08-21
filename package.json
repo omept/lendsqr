@@ -15,8 +15,8 @@
     "node": "16.15.0"
   },
   "scripts": {
-    "start": "node build/index.js",
-    "start-dev": "concurrently 'npx tsc --watch' 'nodemon -q build/index.js'",
+    "start": "node ./build/index.js",
+    "start-dev": "concurrently 'npx tsc --watch' 'node ./build/index.js'",
     "transpile": "tsc",
     "postinstall": "tsc",
     "clean": "rimraf build",
