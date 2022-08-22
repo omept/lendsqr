@@ -15,7 +15,7 @@ const tables = [
 
 export const TEST_EMAIL = faker.internet.email();
 export const TEST_PASSWORD = faker.internet.password();
-export const TEST_NAME = faker.name.findName();
+export const TEST_NAME = faker.name.fullName();
 
 let userWalletData: UserWalletDetail;
 let userWalletData2: UserWalletDetail;
@@ -29,7 +29,7 @@ async function createUser(email?: string): Promise<UserWalletDetail> {
   return await userService.insert({
     email: email ?? TEST_EMAIL,
     password: TEST_PASSWORD,
-    name: faker.name.findName()
+    name: faker.name.fullName()
   });
 }
 

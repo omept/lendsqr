@@ -80,16 +80,16 @@ $ yarn test # to subsequently run test suites
 App endpoints can be found in api.rest file
 
 #### Routes ⚡
-| Routes           | HTTP Methods | Description                                                                                                  |
+| Routes           | HTTP Methods | Description                                                                                                  | Params                                   |
 | :--------------- | :----------- | :----------------------------------------------------------------------------------------------------------- |
-| /                | GET          | Displays application infomation                                                                              |
-| /sign-up         | POST         | Creates a new user and returns the initiated wallet                                                          |
-| /login           | POST         | Logs in a user and returns the jwt session token                                                             |
-| /logout          | POST         | Logs out a user                                                                                              |
-| /refresh         | POST         | Refresh a user jwt token                                                                                     |
-| /wallet/fund     | POST         | Fund the wallet of a logged in user                                                                          |
-| /wallet/transfer | POST         | Transfer money from logged in user\'s wallet to another user\'s  wallet. Wallets must have the same currency |
-| /wallet/withdraw | POST         | Withdraw money from session user\'s wallet                                                                   |
+| /                | GET          | Displays application infomation                                                                              | none                                     |
+| /sign-up         | POST         | Creates a new user and returns the initiated wallet                                                          | `email` `password` `name`                |
+| /login           | POST         | Logs in a user and returns the jwt session token                                                             | `email` `password`                       |
+| /logout          | POST         | Logs out a user                                                                                              | none                                     |
+| /refresh         | POST         | Refresh a user jwt token                                                                                     | none                                     |
+| /wallet/fund     | POST         | Fund the wallet of a logged in user                                                                          | `walletId`  `amount`                     |
+| /wallet/transfer | POST         | Transfer money from logged in user\'s wallet to another user\'s  wallet. Wallets must have the same currency | `recipientWalletId` `walletId`  `amount` |
+| /wallet/withdraw | POST         | Withdraw money from session user\'s wallet                                                                   | `walletId`  `amount`                     |
 ```
 ## Setting up REST Client on VSCode
 
